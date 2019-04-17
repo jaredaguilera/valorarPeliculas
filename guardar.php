@@ -20,7 +20,7 @@ if(isset($_POST["submit"])){
 
                     $consulta = "SELECT * FROM valoracion WHERE valoracion is not null and idpelicula='$idpelicula' and idusuario = ' $idusuario'";
 
-                     $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                     $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la consulta a la base de datos ");
 
 
 
@@ -32,7 +32,7 @@ if(isset($_POST["submit"])){
 
                        $update = "UPDATE valoracion SET valoracion = '$valoracion' WHERE idusuario = '$idusuario' AND idpelicula = '$idpelicula'";
 
-                         $resultado = mysqli_query( $conexion, $update ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                         $resultado = mysqli_query( $conexion, $update ) or die ( "Algo ha ido mal en el update a la base de datos");
 
                       //echo $update;
 
@@ -43,10 +43,10 @@ if(isset($_POST["submit"])){
                     }else{
 
                         
-
+                        echo $valoracion." , ".$idpelicula." , ".$idusuario;
                        $insert = "INSERT INTO valoracion(valoracion, idpelicula, idusuario)VALUES('$valoracion','$idpelicula','$idusuario')";
 
-                       $resultado = mysqli_query( $conexion, $insert ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                       $resultado = mysqli_query( $conexion, $insert ) or die ( "Algo ha ido mal en el insert a la base de datos");
 
                         header('Location: contenido.php');
 

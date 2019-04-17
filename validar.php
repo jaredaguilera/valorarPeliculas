@@ -37,25 +37,14 @@ if(empty($usuariocon) || empty($pass)){
 	foreach ($row2 as $key => $value) {
 		$eo=$key->idusuario;
 		
-	}
-	echo $eo;*/
-	$otrosusuarios = null;
-	while ($row2 = mysqli_fetch_array( $resultadootrosusuarios )) { 
-		$value = $row2['idusuario'] ;
+	}*/
 	
-		$otrosusuarios = $value . " , ". $otrosusuarios;
-		
-	}
-	
-
-	$otrosusuarios = substr($otrosusuarios, 0, strlen($otrosusuarios)-2);
 
 	
 
 
 	if($row = mysqli_fetch_array( $resultado)){
 
-		
 
 		if($row['password'] == $pass){
 

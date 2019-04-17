@@ -7,7 +7,8 @@ session_start();
 if (isset($_SESSION['usuario'])){
 
 	$idusuario=$_SESSION['idusuario'];
-	$otrosusuarios=$_SESSION['otrosusuarios'];
+  
+	
 ?>
 
 
@@ -62,17 +63,7 @@ if (isset($_SESSION['usuario'])){
 
 	// establecer y realizar consulta. guardamos en variable.
 
-	$consultaprueba = "SELECT * from valoracion val inner join pelicula pel on val.idpelicula = pel.id where val.idusuario= $idusuario order by val.valoracion desc";
-
-	
-
-	$resultadoprueba = mysqli_query( $conexion, $consultaprueba ) or die ( "Algo ha ido mal en la consulta a la base de datos");
-
-
-	$consultapruebanulos = "SELECT pel.nombre,pel.id,pel.directorio,val.idvaloracion,val.valoracion,val.idpelicula,val.idusuario from pelicula pel left join valoracion val on pel.id=val.idpelicula where val.idusuario IN($otrosusuarios ) or val.idusuario is null GROUP by pel.nombre";
-
 	$resultadopruebanulos = mysqli_query( $conexion, $consultapruebanulos ) or die ( "Algo ha ido mal en la consulta a la base de datos");
-
 	
 
 	/*// Motrar el resultado de los registro de la base de datos
@@ -151,14 +142,24 @@ if (isset($_SESSION['usuario'])){
 
         <div class="container" ></br></br></br></br>
 
-        	<?php  while ($columna = mysqli_fetch_array( $resultadoprueba )) { 
-
-        		$idpelicula= $columna["id"];
 
 
+        	<?php 
 
-        		?>
+$valoracionUsuario = "SELECT * from pelicula pel inner JOIN valoracion val ON pel.id = val.idpelicula where val.idusuario= $idusuario order by val.valoracion desc";
+$resultadoValoracionUsuario= mysqli_query( $conexion, $valoracionUsuario ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+$valoracionDeOtrosUsuario = "SELECT * from pelicula pel inner JOIN valoracion val ON pel.id = val.idpelicula where val.idusuario!= $idusuario  GROUP by val.idpelicula";
+$resultadoValoracionDeOtrosUsuario = mysqli_query( $conexion, $valoracionDeOtrosUsuario ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+$valoracionNull = "SELECT * from pelicula pel left JOIN valoracion val ON pel.id = val.idpelicula where val.idusuario is null ";
+$resultadoValoracionNull= mysqli_query( $conexion, $valoracionNull ) or die ( "Algo ha ido mal en la consulta a la base de datos");  
 
+$idpeliculavaloracion=null;
+$contador=null;
+            while ($columna = mysqli_fetch_array( $resultadoValoracionUsuario )) { 
+                $idpelicula=$columna['id'];
+                $idpeliculavaloracion= $idpeliculavaloracion." , ".$columna['idpelicula'] ." , ";
+$contador=$contador+1;
+?>
 	            <div class="row">
 
 	                <!-- Single Speaker Area -->
@@ -191,10 +192,10 @@ if (isset($_SESSION['usuario'])){
 
 					
 
-			                      	<?php echo "<h3>" . $columna['nombre'] . "</h3>"; ?>
-
-			                        <?php echo "<h3>" . $columna['valoracion'] . "</h3>"; ?>
-
+			                      	<?php  echo "<h3>" . $columna['nombre'] . "</h3>"; ?>
+                                    
+			                        <?php 
+                                       echo "<h3>" . $columna['valoracion'] . "</h3>";  ?>
 									<input type="hidden" value="<?php echo $idusuario ; ?>" id="idusuario" name="idusuario">
 
 			                        <input type="hidden" value="<?php echo $idpelicula; ?>" id="idpelicula" name="idpelicula">
@@ -206,7 +207,7 @@ if (isset($_SESSION['usuario'])){
 								            <button name="submit" class="btn btn-primary">Valorar</button>
 
 								        </div>
-
+                                    
 									</br>
 
 						     	</form>
@@ -219,81 +220,140 @@ if (isset($_SESSION['usuario'])){
 
 				</div>
 
-			<?php } ?>
-				<?php  while ($columnanulos = mysqli_fetch_array( $resultadopruebanulos )) { 
+			<?php  }
+            echo "contador ".$contador;
+                while ($columna = mysqli_fetch_array( $resultadoValoracionDeOtrosUsuario )) {
+if(strpos($idpeliculavaloracion , $columna['idpelicula']) ==false){
+$idpeliculavaloracion= $idpeliculavaloracion." , ".$columna['idpelicula'] ." , ";
+$contador=$contador+1;
+   $idpelicula=$columna['id'];
+            ?>
+                <div class="row">
 
-        		$idpelicula= $columnanulos["id"];
+                    <!-- Single Speaker Area -->
 
+                    <div class="col-12 col-sm-6 col-lg-2">
 
+                        <div class="single-speaker-area bg-gradient-overlay-2" data-wow-delay="300ms">
 
-        		?>
+                            <!-- Thumb -->
 
-	            <div class="row">
+                            <div class="speaker-single-thumb">
 
-	                <!-- Single Speaker Area -->
+                                <?php echo "<td> <img src=".$columna['directorio']."><td>"; ?>
 
-	             	<div class="col-12 col-sm-6 col-lg-2">
+                            </div>
 
-	                    <div class="single-speaker-area bg-gradient-overlay-2" data-wow-delay="300ms">
+                        </div>
 
-	                        <!-- Thumb -->
+                    </div>
 
-	                        <div class="speaker-single-thumb">
+                    <div class="col-12 col-sm-12 col-lg-6">
 
-	                            <?php echo "<td> <img src=".$columnanulos['directorio']."><td>"; ?>
+                        <div>
 
-	                        </div>
+                            <div class="speaker-info">
 
-	                    </div>
+                                <form name="MiForm" id="MiForm" method="post" action="guardar.php">
 
-					</div>
+                    
 
-					<div class="col-12 col-sm-12 col-lg-6">
+                    
 
-						<div>
+                                    <?php  echo "<h3>" . $columna['nombre'] . "</h3>"; ?>
+                                    
+                                    
+                                    <input type="hidden" value="<?php echo $idusuario ; ?>" id="idusuario" name="idusuario">
 
-						 	<div class="speaker-info">
+                                    <input type="hidden" value="<?php echo $idpelicula; ?>" id="idpelicula" name="idpelicula">
 
-							    <form name="MiForm" id="MiForm" method="post" action="guardar.php">
+                                        <div class="container">
 
-					
+                                            <input style="width: 30%;" type="text" class="form-control" name="valoracion" multiple></br>  
 
-					
+                                            <button name="submit" class="btn btn-primary">Valorar</button>
 
-			                      	<?php echo "<h3>" . $columnanulos['nombre'] . "</h3>"; ?>
+                                        </div>
+                                    
+                                    </br>
 
-			                       
+                                </form>
 
-									<input type="hidden" value="<?php echo $idusuario ; ?>" id="idusuario" name="idusuario">
+                            </div>
 
-			                        <input type="hidden" value="<?php echo $idpelicula; ?>" id="idpelicula" name="idpelicula">
+                        </div>
 
-										<div class="container">
+                    </div>
 
-								            <input style="width: 30%;" type="text" class="form-control" name="valoracion" multiple></br>  
+                </div>
 
-								            <button name="submit" class="btn btn-primary">Valorar</button>
+            <?php }}     while ($columna = mysqli_fetch_array( $resultadoValoracionNull )) {
 
-								        </div>
+$contador=$contador+1;
+  $idpelicula=$columna['id'];
+            ?>
+                <div class="row">
 
-									</br>
+                    <!-- Single Speaker Area -->
 
-						     	</form>
+                    <div class="col-12 col-sm-6 col-lg-2">
 
-	                    	</div>
+                        <div class="single-speaker-area bg-gradient-overlay-2" data-wow-delay="300ms">
 
-						</div>
+                            <!-- Thumb -->
 
-					</div>
+                            <div class="speaker-single-thumb">
 
-				</div>
+                                <?php echo "<td> <img src=".$columna['directorio']."><td>"; ?>
 
-			<?php } ?>
+                            </div>
 
+                        </div>
 
+                    </div>
 
-        
+                    <div class="col-12 col-sm-12 col-lg-6">
 
+                        <div>
+
+                            <div class="speaker-info">
+
+                                <form name="MiForm" id="MiForm" method="post" action="guardar.php">
+
+                    
+
+                    
+
+                                    <?php  echo "<h3>" . $columna['nombre'] . "</h3>"; ?>
+                                    
+                                    
+                                    <input type="hidden" value="<?php echo $idusuario ; ?>" id="idusuario" name="idusuario">
+
+                                    <input type="hidden" value="<?php echo $idpelicula; ?>" id="idpelicula" name="idpelicula">
+
+                                        <div class="container">
+
+                                            <input style="width: 30%;" type="text" class="form-control" name="valoracion" multiple></br>  
+
+                                            <button name="submit" class="btn btn-primary">Valorar</button>
+
+                                        </div>
+                                    
+                                    </br>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <?php }       echo "contador ".$contador;?>
+
+				
                    <!-- <div class="single-speaker-area bg-gradient-overlay-2 wow fadeInUp" data-wow-delay="300ms">
 
                     
