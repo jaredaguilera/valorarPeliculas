@@ -63,7 +63,6 @@ if (isset($_SESSION['usuario'])){
 
 	// establecer y realizar consulta. guardamos en variable.
 
-	$resultadopruebanulos = mysqli_query( $conexion, $consultapruebanulos ) or die ( "Algo ha ido mal en la consulta a la base de datos");
 	
 
 	/*// Motrar el resultado de los registro de la base de datos
