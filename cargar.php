@@ -74,15 +74,34 @@ if(isset($_POST["submit"])){
 
                         // establecer y realizar consulta. guardamos en variable.
 
-                        $consulta = "INSERT INTO pelicula(nombre,directorio)VALUES('$nombre','$directorio$nombre_img')";
+            
+                         $consultapelicula = "SELECT * FROM pelicula WHERE nombre ='$nombre'";
 
-                        $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                        $resultadoconsultapelicula = mysqli_query( $conexion, $consultapelicula ) or die ( "Algo ha ido mal en la consulta a la base de datos");
 
-                        echo "Cargado con exito";
+                         if($row = mysqli_fetch_array( $resultadoconsultapelicula)){
+                              if($row['nombre'] == $nombre){
+                                echo "Esa pelicula ya fue subida";
+                                header( "refresh:4; url=upload.php" );
+                                exit;
+                                }else{
+                                      $insertimagen= "INSERT INTO pelicula(nombre,directorio)VALUES('$nombre','$directorio$nombre_img')";
 
-                        header( "refresh:4; url=contenido.php" );
+                                      $resultadoinsertimagen = mysqli_query( $conexion, $insertimagen ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                                    echo "Cargado con exito";
 
-                        exit;
+                                header( "refresh:4; url=contenido.php" );
+
+                                exit;
+
+                                }
+                    
+                          }else{
+                          echo "Cargado con exito";
+
+                          header( "refresh:4; url=contenido.php" );
+
+                          exit;}
 
 
 

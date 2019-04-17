@@ -116,12 +116,14 @@ session_start();
         <!-- Scroll Icon -->
 
        
+     <!-- Valoracion -->
+    <section class="welcome-area">
 
+       
+
+   <?php include("valoracionGlobal.php");?>
+       
     </section>
-
-   
-
-   
 
     <!-- Footer Area Start -->
 
@@ -327,13 +329,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
                     </div>
 
-                    <!-- Footer Menu                     <div class="col-12 col-md-6">
+                    Footer Menu                     <div class="col-12 col-md-6">
 
                         <div class="footer-menu">
 
                             <ul class="nav">
 
-                                <li><a href="#"><i class="zmdi zmdi-circle"></i> Terms of Service</a></li>
+                                <li><a href="#"><i class="zmdi zmdi-circle"></i>Jared Aguilera</a></li>
 
                                 <li><a href="#"><i class="zmdi zmdi-circle"></i> Privacy Policy</a></li>
 
@@ -341,7 +343,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
                         </div>
 
-                    </div>-->
+                    </div>
 
                 </div>
 
