@@ -220,7 +220,7 @@ $contador=$contador+1;
 				</div>
 
 			<?php  }
-            echo "contador ".$contador;
+     
                 while ($columna = mysqli_fetch_array( $resultadoValoracionDeOtrosUsuario )) {
 if(strpos($idpeliculavaloracion , $columna['idpelicula']) ==false){
 $idpeliculavaloracion= $idpeliculavaloracion." , ".$columna['idpelicula'] ." , ";
@@ -350,7 +350,7 @@ $contador=$contador+1;
 
                 </div>
 
-            <?php }       echo "contador ".$contador;?>
+            <?php }       echo "cantidad de peliculas : ".$contador;?>
 
 				
                    <!-- <div class="single-speaker-area bg-gradient-overlay-2 wow fadeInUp" data-wow-delay="300ms">

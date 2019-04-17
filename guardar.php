@@ -43,7 +43,7 @@ if(isset($_POST["submit"])){
                     }else{
 
                         
-                        echo $valoracion." , ".$idpelicula." , ".$idusuario;
+                        
                        $insert = "INSERT INTO valoracion(valoracion, idpelicula, idusuario)VALUES('$valoracion','$idpelicula','$idusuario')";
 
                        $resultado = mysqli_query( $conexion, $insert ) or die ( "Algo ha ido mal en el insert a la base de datos");
