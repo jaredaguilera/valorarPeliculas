@@ -97,6 +97,11 @@ if(isset($_POST["submit"])){
                                 }
                     
                           }else{
+
+                              $insertimagen= "INSERT INTO pelicula(nombre,directorio)VALUES('$nombre','$directorio$nombre_img')";
+
+                                      $resultadoinsertimagen = mysqli_query( $conexion, $insertimagen ) or die ( "Algo ha ido mal en la consulta a la base de datos");
+                                  
                           echo "Cargado con exito";
 
                           header( "refresh:4; url=contenido.php" );

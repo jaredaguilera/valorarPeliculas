@@ -3,7 +3,8 @@
 
    	<?php 
 include("conexion.php");
-$valoracionGlobal = "SELECT * FROM pelicula pel INNER JOIN valoracion val ON pel.id = val.idpelicula GROUP BY PEL.id ORDER by val.valoracion DESC";
+$valoracionGlobal = "SELECT pel.id,pel.nombre,pel.directorio,(SELECT AVG(val.valoracion) FROM valoracion val where pel.id = val.idpelicula ORDER by val.valoracion DESC) as valoracion FROM pelicula pel INNER JOIN valoracion val ON pel.id = val.idpelicula  ORDER by val.valoracion DESC";
+
 $resultadoValoracionGlobal= mysqli_query( $conexion, $valoracionGlobal ) or die ( "Algo ha ido mal en la consulta a la base de datos");
 
 
@@ -64,6 +65,6 @@ $contador=$contador+1;
 
 				</div>
 
-			<?php  } echo "Valoracion total : ". $contador?>
+		<?php  } echo "Valoracion total : ". $contador?>
 		</br></br>
 		</div>

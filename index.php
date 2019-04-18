@@ -121,7 +121,7 @@ session_start();
 
        
 
-   <?php include("valoracionGlobal.php");?>
+   <?php // include("valoracionGlobal.php");?>
        
     </section>
 
